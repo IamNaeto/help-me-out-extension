@@ -1,13 +1,14 @@
-//chrome
-
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab)=>{
-    if(changeInfo.status === "complete" && /^http/.test(tab.url)){
-        chrome.scripting.executeScript({
-            target: {tabId},
-            files: ["./content.js"]
-        }).then(()=>{
-            console.log("we have injected the content script")
-        }).catch(err=> console.log(err, "error in background script line 10"))
-    }
-})
-
+chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    const activeTab = tabs[0];
+    chrome.tabs.sendMessage(activeTab.id, { action: 'toggleRecording' }, function (response) {
+      // Check if response is defined before accessing its properties
+      if (response && response.isRecording !== undefined) {
+        isRecording = response.isRecording;
+        // Handle the response if needed
+      } else {
+        // Handle the case where response is undefined or missing isRecording
+        console.error('Response is undefined or missing isRecording property.');
+      }
+    });
+  });
+  
