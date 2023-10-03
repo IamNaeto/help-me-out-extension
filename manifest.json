@@ -25,14 +25,13 @@
     "activeTab",
     "scripting",
     "desktopCapture",
-    "tabs",
-    "audioCapture",
-    "videoCapture"
+    "tabs"
   ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_start"
     }
   ]
 }
